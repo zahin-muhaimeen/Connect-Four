@@ -1,9 +1,11 @@
 import random as rand
 
+# Game Constants
 BOARD_WIDTH = 7
 BOARD_HEIGHT = 6
 WINNING_LENGTH = 4
 
+# Initializing the Board
 board = []
 
 for i in range(BOARD_HEIGHT):
@@ -14,20 +16,38 @@ for i in board:
         i.append(" ")
 
 
-def printing_board():
+# Prints the Board
+def printing_board() -> None:
+    """
+    Prints all the rows in the board that can be looked at without disgust
+    """
     for row in board:
         print("|\t", end="")
         print("\t|\t".join(row), end="\t|\n")
 
 
+# Correct Input
 def get_int(prompt: str) -> int:
+    """
+    Forces the user to enter a numeric string
+
+    :param prompt: The input on the screen.
+    :return: The `int` the user was forced to enter.
+    """
     user_in = input(prompt)
     while not user_in.isnumeric():
         user_in = input(prompt)
     return int(user_in)
 
 
-def choosing(prompt: int, letter: str):
+# Positioning
+def choosing(prompt: int, letter: str) -> None:
+    """
+    Forces the user to enter a valid position on the board
+
+    :param prompt: The input on the screen. Used with the `get_int` function.
+    :param letter: The `str` that will replace the board position with.
+    """
     while True:
         num = get_int(prompt)
         if num in range(BOARD_WIDTH):
@@ -44,10 +64,18 @@ def choosing(prompt: int, letter: str):
         printing_board()
 
 
-def consecutive(x: list, letter: str) -> int:
+# Consecutive
+def consecutive(list_str: list, letter: str) -> int:
+    """
+    Finds the highest consecutive of `letter` in `list_str`
+
+    :param list_str: A list of strings to look through
+    :param letter: The item to find the highest consecutive of
+    :return: The highest consecutive of `letter` in `list_str`
+    """
     consecutives = []
     consec = 0
-    for i in x:
+    for i in list_str:
         if i == letter:
             consec += 1
         else:
@@ -58,7 +86,11 @@ def consecutive(x: list, letter: str) -> int:
     return max(consecutives)
 
 
+# Win or Loss?
 def checking():
+    """
+    Checks if the previous move was a win or a loss for player `X`
+    """
     check_list = [None] * BOARD_WIDTH
 
     for row in board[::-1]:
@@ -102,7 +134,11 @@ def checking():
                 return "You Lost!"
 
 
+# The Game
 def main():
+    """
+    The Game of Connect Four
+    """
     while True:
         printing_board()
 
