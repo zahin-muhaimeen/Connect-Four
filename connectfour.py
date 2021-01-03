@@ -1,12 +1,16 @@
 import random as rand
 
+BOARD_WIDTH = 7
+BOARD_HEIGHT = 6
+WINNING_LENGTH = 4
+
 board = []
 
-for i in range(6):
+for i in range(BOARD_HEIGHT):
     board.append([])
 
 for i in board:
-    for j in range(7):
+    for j in range(BOARD_WIDTH):
         i.append(" ")
 
 
@@ -16,11 +20,28 @@ def printing_board():
         print("\t|\t".join(row), end="\t|\n")
 
 
-def choosing(num: int, letter: str):
-    for row in board[::-1]:
-        if row[num - 1] == " ":
-            row[num - 1] = letter
-            break
+def get_int(prompt: str) -> int:
+    user_in = input(prompt)
+    while not user_in.isnumeric():
+        user_in = input(prompt)
+    return int(user_in)
+
+
+def choosing(prompt: int, letter: str):
+    while True:
+        num = get_int(prompt)
+        if num in range(BOARD_WIDTH):
+            if board[0][num] == " ":
+                for row in board[::-1]:
+                    if row[num] == " ":
+                        row[num] = letter
+                        return None
+            else:
+                print("Please pick another column, as this one is full")
+        else:
+            print("Please choose a column that is on the board")
+
+        printing_board()
 
 
 def consecutive(x: list, letter: str) -> int:
@@ -37,16 +58,8 @@ def consecutive(x: list, letter: str) -> int:
     return max(consecutives)
 
 
-def reset_check_list():
-    check_list = []
-    for i in range(7):
-        check_list.append(None)
-
-    return check_list
-
-
 def checking():
-    check_list = reset_check_list()
+    check_list = [None] * BOARD_WIDTH
 
     for row in board[::-1]:
         if consecutive(row, "X") >= 4:
@@ -54,15 +67,15 @@ def checking():
         elif consecutive(row, "O") >= 4:
             return "You Lost!"
 
-    for x in range(7):
-        for y in range(6):
+    for x in range(BOARD_WIDTH):
+        for y in range(BOARD_HEIGHT):
             check_list[y] = board[y][x]
         if consecutive(check_list, "X") >= 4:
             return "You Win!"
         elif consecutive(check_list, "O") >= 4:
             return "You Lost!"
 
-    check_list = reset_check_list()
+    check_list = [None] * BOARD_WIDTH
 
     for x in range(4):
         for y in range(3):
@@ -75,10 +88,10 @@ def checking():
             elif consecutive(check_list, "O") >= 4:
                 return "You Lost!"
 
-    check_list = reset_check_list()
+    check_list = [None] * BOARD_WIDTH
 
     for x in range(4):
-        for y in range(3, 6):
+        for y in range(3, BOARD_HEIGHT):
             check_list[y] = board[y][x]
             check_list[y-1] = board[y-1][x+1]
             check_list[y-2] = board[y-2][x+2]
@@ -93,25 +106,15 @@ def main():
     while True:
         printing_board()
 
-        # input from player
-        in_player = input(": ")
-        while ((not in_player.isnumeric())
-               or (1 > int(in_player) or int(in_player) > 7)
-               or (board[0][int(in_player) - 1] != " ")):
-            in_player = input(": ")
-        choosing(int(in_player), "X")
-
+        choosing(": ", "X")
         # checking if anyone won or lost 
         if checking() is not None:
             print(checking())
             break
 
-        # input from computer
-        in_computer = rand.randint(1, len(board))
-        while board[0][in_computer - 1] != " ":
-            in_computer = rand.randint(1, len(board))
-        choosing(in_computer, "O")
+        printing_board()
 
+        choosing(": ", "O")
         # checking if anyone won or lost 
         if checking() is not None:
             print(checking())
