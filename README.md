@@ -1,6 +1,6 @@
 # Connect-Four
 
-**Version 1.3.0**
+**Version 1.4.0**
 
 Connect Four python project.
 
@@ -8,9 +8,10 @@ Connect Four python project.
 
 ## What's New
 
-1. Added documentations to each function.
-2. Added anotations so that even if you are dumb
-   you can still understand.
+1. Remade the `checking` function since it was really unpolished
+   and caused quite a few bugs (not winning when supposed to or
+   winning when not supposed to).
+2. All known bugs fixed
 
 ---
 
