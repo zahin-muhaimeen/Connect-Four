@@ -1,17 +1,17 @@
 # Connect-Four
 
-**Version 1.4.0**
+**Version 2.0**
 
 Connect Four python project.
+
+If you still want to use the command line version,
+any version 1.4 and below is where to go.
 
 ---
 
 ## What's New
 
-1. Remade the `checking` function since it was really unpolished
-   and caused quite a few bugs (not winning when supposed to or
-   winning when not supposed to).
-2. All known bugs fixed
+1. I remade the entire Connect Four game but with a TKinter GUI
 
 ---
 
